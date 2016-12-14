@@ -7,13 +7,42 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <script>
+  $(document).ready(function(){
+
+    $("#startPresoButton").click(function(){
+      website = "index.html?presourl=" + $("#presentationLink").val() 
+        window.location.href = website ;
+    });
+  });
+
+
+    // function for getting URL parameters
+    function gup(name) {
+        name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+        var regexS = "[\\?&]"+name+"=([^&#]*)";
+        var regex = new RegExp(regexS);
+        var results = regex.exec(window.location.href);
+        if(results == null)
+          return null;
+        else
+          return unescape(results[1]);
+    }
+  </script>
+
 </head>
 <body>
 
 <div class="jumbotron text-center">
   <h1>No Se</h1>
-  <p>No questions goes unanswered!</p> 
-   <a href="index.html">Start Here</a>
+  <p>Platform for student Q&A!</p> 
+        <h3>Paste link to Presentation</h3>
+        <div class="form-group">
+          <input type="text" class="form-control" id="presentationLink" placeholder="Copy and paste a link to your Google Drive presentation">
+          <br>
+        <input id="startPresoButton" type="submit" value="Start Presentation">
+        </div>
 </div> 
 
 </body>
