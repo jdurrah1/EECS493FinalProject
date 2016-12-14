@@ -61,8 +61,16 @@
   }
     $("#submitQuestion").click(function(){
       var question = $("#questionTextBox").val();
-      var slideVal = $(".goog-inline-block.goog-flat-menu-button-caption").innerText;
+      var slideVal = "";
+      slideVal = $(".goog-inline-block.goog-flat-menu-button-caption").innerText;
       var id = questionCount;
+
+      if(($("#questionTextBox").val()).indexOf(":") !== -1)
+      {
+        slideVal = question.substring(0, question.indexOf(":"));
+      }
+      question = question.substring(question.indexOf(":")+1,question.length);
+
 
       $(".sidenav").append('<div id='+id+' class="well"><h4>'+slideVal+ '</h4><br><p>' + question + '</p><button id='+questionCount+'r" type="button" class="answer-question-button professor_view btn btn-success" style="display:none" >Answered</button> <button id='+questionCount+'dr" type="button" class="delete-question-button student_view btn btn-danger" >Delete</button></div></div> </p>')
       $("#questionTextBox").val("");
@@ -149,7 +157,7 @@
       <div class="student_view questions" style="display:none" >
         <h3>Ask a Question</h3>
           <div class="form-group">
-            <input type="text" class="form-control" id="questionTextBox" placeholder="Why is this topic important?">
+            <input type="text" class="form-control" id="questionTextBox" placeholder="Toipic or slide Number: Why is this topic important?">
             <br>
           <input class="btn btn-primary btn-block btn-success" id = "submitQuestion" type="submit" value="Submit">
           </div>
