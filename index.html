@@ -53,11 +53,12 @@
      if(gup("presourl")!=null)
      {
       var presoURL = gup("presourl");
-      presoURL = presoURL.substring(0, presoURL.indexOf("/edit"));
-      presoURL+='/embed'
-      $('#preso').prop('src', presoURL);
-      //var linkToPresentation = 'https://eecs441-team4-nose.herokuapp.com/index.html?presourl=' +presoURL +'/edit';
-      //$(".studentLink").append("<h2>"+linkToPresentation+"</h2>");
+      if(presourl!="")
+      {
+        presoURL = presoURL.substring(0, presoURL.indexOf("/edit"));
+        presoURL+='/embed'
+        $('#preso').prop('src', presoURL);
+      }
   }
     $("#submitQuestion").click(function(){
       var question = $("#questionTextBox").val();
