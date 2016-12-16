@@ -85,6 +85,13 @@
       $(".professor_view").hide(); 
     });
 
+    $("#questionTextBox").keypress(function(event) {
+        if (event.which == 13) {
+            $('#submitQuestion').click();
+        }
+    });
+
+
     $("#professorTab").click(function(){
       $("#professorTab").addClass("active");
       $("#studentTab").removeClass("active");
