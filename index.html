@@ -97,9 +97,7 @@
 
     $("#submitQuestion").click(function(){
       var question = $("#questionTextBox").val();
-      var slideVal = "";
-      slideVal += $(".goog-inline-block.goog-flat-menu-button-caption").innerText;
-      
+      var slideVal = "";    
       var flagNum = $("#slideNum").val();
       
       qDictionary["1"].push(question);
@@ -133,7 +131,6 @@
       $("#professorTab").removeClass("active");
       $(".student_view").show();  
       $(".professor_view").hide(); 
-      $(".sideBtn").hide();
     });
     $("#questionTextBox").keypress(function(event) {
         if (event.which == 13) {
@@ -216,7 +213,7 @@
     <div class="col-sm-3 sidenav">
       <h3 class="sideTitle">Questions</h3>
     
-      <div class="sideBtn"><input class="btn btn-primary btn-block" id="titlChng" type="button" value="By Slide"></div>
+      <div class="sideBtn professor_view"><input class="btn btn-primary btn-block" id="titlChng" type="button" value="By Slide"></div>
     </div>
   </div>
 </div>
