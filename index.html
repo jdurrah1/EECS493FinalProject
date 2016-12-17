@@ -14,6 +14,35 @@
       border-radius: 0;
     }
     
+    .flag{
+      position: absolute;
+      width: 1010px;
+      height: 100px;
+      background-color: gold;
+      top: 15%;
+      left: 35px;
+      opacity: 0.7;
+
+    }
+
+    .picFlag{
+      position: relative;
+      float: left;
+      top: 10px;
+      left: 34%;
+    }
+    .txtFlag{
+      position: relative;
+      color: blue;
+      left: 35%;
+      top: 10px;
+    }
+
+    .sideBtn{
+      position: relative;
+      top: 75%;
+    }
+
     /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
     .row.content {height: 450px}
     
@@ -46,10 +75,14 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script>
+  
+  //Slide array for ribbons on professor view
+  var slide1 = new Array();
+  var slide2 = new Array();
+  var qDictionary = {1: slide1, 2: slide2};
+
   $(document).ready(function(){
-
     questionCount = 0; 
-
      if(gup("presourl")!=null)
      {
       var presoURL = gup("presourl");
@@ -60,66 +93,74 @@
         $('#preso').prop('src', presoURL);
       }
   }
+    
+
     $("#submitQuestion").click(function(){
       var question = $("#questionTextBox").val();
       var slideVal = "";
       slideVal += $(".goog-inline-block.goog-flat-menu-button-caption").innerText;
-      var id = questionCount;
+      
+      var flagNum = $("#slideNum").val();
+      
+      qDictionary["1"].push(question);
+      console.log(qDictionary["1"][0]);
 
+
+
+
+
+      $("#slideNum").val("");
+      var insStr = "Flagged slide: " + String(flagNum);
+      $(".txtFlag").text(insStr);
+      $(".flag").show();
+      setTimeout(function(){
+        $(".flag").hide();
+      }, 3000);
+
+
+      var id = questionCount;
       if(($("#questionTextBox").val()).indexOf(":") !== -1)
       {
         slideVal = question.substring(0, question.indexOf(":"));
       }
       question = question.substring(question.indexOf(":")+1,question.length);
-
-
       $(".sidenav").append('<div id='+id+' class="well"><h4>'+slideVal+ '</h4><br><p>' + question + '</p><button id='+questionCount+'r" type="button" class="answer-question-button professor_view btn btn-success" style="display:none" >Answered</button> <button id='+questionCount+'dr" type="button" class="delete-question-button student_view btn btn-danger" >Delete</button></div></div> </p>')
       $("#questionTextBox").val("");
       questionCount++;
     });
-
     $("#studentTab").click(function(){
       $("#studentTab").addClass("active");
       $("#professorTab").removeClass("active");
       $(".student_view").show();  
       $(".professor_view").hide(); 
+      $(".sideBtn").hide();
     });
-
     $("#questionTextBox").keypress(function(event) {
         if (event.which == 13) {
             $('#submitQuestion').click();
         }
     });
-
-
     $("#professorTab").click(function(){
       $("#professorTab").addClass("active");
       $("#studentTab").removeClass("active");
       $(".student_view").hide();
       $(".professor_view").show(); 
     });
-
     $('body').on('click', '.answer-question-button', function () {
       var ID = $(this).attr('id');
       var questionID = ID.substring(0, ID.indexOf("r"));
       $("#"+questionID).remove()
       console.log("clicked");
    });
-
     $('body').on('click', '.delete-question-button', function () {
       var ID = $(this).attr('id');
       var questionID = ID.substring(0, ID.indexOf("dr"));
       $("#"+questionID).remove()
       console.log("clicked");
    });
-
-
     
-
       
   });
-
-
     // function for getting URL parameters
     function gup(name) {
         name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
@@ -165,6 +206,7 @@
       <div class="student_view questions" style="display:none" >
         <h3>Ask a Question</h3>
           <div class="form-group">
+            <input type="number" class="form-control" id="slideNum" placeholder="Which slide"><br>
             <input type="text" class="form-control" id="questionTextBox" placeholder="Toipic or slide Number: Why is this topic important?">
             <br>
           <input class="btn btn-primary btn-block btn-success" id = "submitQuestion" type="submit" value="Submit">
@@ -172,10 +214,21 @@
       </div>
     </div>
     <div class="col-sm-3 sidenav">
-      <h3>Questions</h3>
+      <h3 class="sideTitle">Questions</h3>
+    
+      <div class="sideBtn"><input class="btn btn-primary btn-block" id="titlChng" type="button" value="By Slide"></div>
     </div>
   </div>
 </div>
+
+<div class="flag" style="display:none">
+
+  <img src='img/sFlag.jpg' class="picFlag" style="height:75px;"> 
+  <h2 class="txtFlag"> </h2>
+  
+
+</div>
+
 
 <footer class="container-fluid text-center">
   <p>No Se</p>
