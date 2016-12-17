@@ -17,7 +17,7 @@
 
     .ribbon{
       color: white;
-      background-color: red;
+      background-color: grey;
       height: 25px;
 
     }
@@ -47,8 +47,9 @@
     }
 
     .sideBtn{
-      position: relative;
+      
       top: 75%;
+      padding-bottom: 10px; 
     }
 
     /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
@@ -106,34 +107,57 @@
       }
   }
 
-    $(".ribbon").click(function(){
-      console.log($(".ribbon").val());
 
-    });
+ 
+
+    $('body').on('click', '.ribbon', function () {
+      console.log($(this).text());
+      var slideNumber = $(this).text();
+      $(".well").hide();
+      $("."+slideNumber +"_slide").show();
+
+   });
     
     $(".sideBtn").click(function(){
       
       if(!ribbons){
         ribbons = true;
-        $(".well").remove();
-        
+        $(".well").hide();
+        var insertAfterVal = "sideBtnID";
+
         for(var slide in qDictionary){
           console.log(qDictionary[slide].length);
-          if(qDictionary[slide].length > 0) $(".sidenav").append('<div class="ribbon" id="' + slide + '"> ' + slide + '</div>');
+          if(qDictionary[slide].length > 0) 
+          {
+            //check to see if there are any questions for this slide. if no questions exist then don't show ribbon
+            if($('.sidenav').find('.'+slide+'_slide').length!=0)
+            {
+              $('<div class="ribbon" id="' + slide + '_ribbon">' + slide + '</div>').insertAfter("#"+insertAfterVal);
+              insertAfterVal = slide + '_ribbon';
+            }
+            
+          }
+
         }
+        $("#titlChng").val("Show All Questions");
 
       }
 
       else{
         ribbons = false;
+        /*
         var qCount = 0;
         var slideCount = 0;
         for(var slide in qDictionary){
           ++slideCount
           for(var i = 0; i < slide.length; ++i){
-            $(".sidenav").append('<div id='+qCount+' class="well"><h4>'+slideCount+ '</h4><br><p>' + question + '</p><button id='+qCount+'r" type="button" class="answer-question-button professor_view btn btn-success" style="display:none" >Answered</button> <button id='+qCount+'dr" type="button" class="delete-question-button student_view btn btn-danger" >Delete</button></div></div> </p>')
+            $(".sidenav").append('<div id='+qCount+' class="well"><h4>'+slideCount+ '</h4><br><p>' + slide[i] + '</p><button id='+qCount+'r" type="button" class="answer-question-button professor_view btn btn-success" style="display:none" >Answered</button> <button id='+qCount+'dr" type="button" class="delete-question-button student_view btn btn-danger" >Delete</button></div></div> </p>')
           }
         }
+        */
+        $(".ribbon").remove();
+        $(".well").show();
+        $("#titlChng").val("By Slide");
       }
 
 
@@ -172,7 +196,7 @@
         slideVal = question.substring(0, question.indexOf(":"));
       }
       question = question.substring(question.indexOf(":")+1,question.length);
-      $(".sidenav").append('<div id='+id+' class="well"><h4>'+slideVal+ '</h4><br><p>' + question + '</p><button id='+questionCount+'r" type="button" class="answer-question-button professor_view btn btn-success" style="display:none" >Answered</button> <button id='+questionCount+'dr" type="button" class="delete-question-button student_view btn btn-danger" >Delete</button></div></div> </p>')
+      $(".sidenav").append('<div id='+id+' class="well '+ flagNum+'_slide"><h4>'+slideVal+ '</h4><br><p>' + question + '</p><button id='+questionCount+'r" type="button" class="answer-question-button professor_view btn btn-success" style="display:none" >Answered</button> <button id='+questionCount+'dr" type="button" class="delete-question-button student_view btn btn-danger" >Delete</button></div></div> </p>')
       $("#questionTextBox").val("");
       questionCount++;
     });
@@ -205,6 +229,7 @@
       var questionID = ID.substring(0, ID.indexOf("dr"));
       $("#"+questionID).remove()
       console.log("clicked");
+      
    });
     
       
@@ -264,7 +289,7 @@
     <div class="col-sm-3 sidenav" style="overflow-y: scroll;" >
       <h3 class="sideTitle">Questions</h3>
     
-      <div class="sideBtn professor_view"><input class="btn btn-primary btn-block" id="titlChng" type="button" value="By Slide"></div>
+      <div class="sideBtn professor_view" id = "sideBtnID"><input class="btn btn-primary btn-block" id="titlChng" type="button" value="By Slide"></div>
     </div>
   </div>
 </div>
