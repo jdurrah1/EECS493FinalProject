@@ -14,6 +14,14 @@
       border-radius: 0;
     }
     
+
+    .ribbon{
+      color: white;
+      background-color: red;
+      height: 25px;
+
+    }
+
     .flag{
       position: absolute;
       width: 1010px;
@@ -77,9 +85,13 @@
   <script>
   
   //Slide array for ribbons on professor view
-  var slide1 = new Array();
-  var slide2 = new Array();
-  var qDictionary = {1: slide1, 2: slide2};
+  var qDictionary = new Object();
+  var ribbons = false;
+
+  for(i = 0; i < 10; ++i){
+    qDictionary[i] = new Array();
+  }
+
 
   $(document).ready(function(){
     questionCount = 0; 
@@ -93,15 +105,53 @@
         $('#preso').prop('src', presoURL);
       }
   }
+
+    $(".ribbon").click(function(){
+      console.log($(".ribbon").val());
+
+    });
     
+    $(".sideBtn").click(function(){
+      
+      if(!ribbons){
+        ribbons = true;
+        $(".well").remove();
+        
+        for(var slide in qDictionary){
+          console.log(qDictionary[slide].length);
+          if(qDictionary[slide].length > 0) $(".sidenav").append('<div class="ribbon" id="' + slide + '"> ' + slide + '</div>');
+        }
+
+      }
+
+      else{
+        ribbons = false;
+        var qCount = 0;
+        var slideCount = 0;
+        for(var slide in qDictionary){
+          ++slideCount
+          for(var i = 0; i < slide.length; ++i){
+            $(".sidenav").append('<div id='+qCount+' class="well"><h4>'+slideCount+ '</h4><br><p>' + question + '</p><button id='+qCount+'r" type="button" class="answer-question-button professor_view btn btn-success" style="display:none" >Answered</button> <button id='+qCount+'dr" type="button" class="delete-question-button student_view btn btn-danger" >Delete</button></div></div> </p>')
+          }
+        }
+      }
+
+
+    });
+
 
     $("#submitQuestion").click(function(){
       var question = $("#questionTextBox").val();
       var slideVal = "";    
       var flagNum = $("#slideNum").val();
       
-      qDictionary["1"].push(question);
-      console.log(qDictionary["1"][0]);
+      if(flagNum > 0){
+        if(flagNum > 10) qDictionary[flagNum] = new Array();
+        qDictionary[flagNum].push(question);
+        console.log(qDictionary[flagNum].length);
+      }
+
+      
 
 
 
@@ -142,6 +192,7 @@
       $("#studentTab").removeClass("active");
       $(".student_view").hide();
       $(".professor_view").show(); 
+      $(".sideBtn").show();
     });
     $('body').on('click', '.answer-question-button', function () {
       var ID = $(this).attr('id');
